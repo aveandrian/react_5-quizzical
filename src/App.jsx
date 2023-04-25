@@ -52,15 +52,17 @@ function App() {
   }
 
   function toggleAnswer(questId, answerId){ 
-    setQuizzQuestions(prevQuizzQuestions => prevQuizzQuestions.map(question => {
-      return question.id === questId ? 
-      {
-        ...question, 
-        answers: question.answers.map(answer => answer.id === answerId ? {...answer, isHeld: !answer.isHeld} : {...answer, isHeld: false} )
-      } : 
-      question
-    }))
-  }
+    if(!isFinished){
+      setQuizzQuestions(prevQuizzQuestions => prevQuizzQuestions.map(question => {
+        return question.id === questId ? 
+        {
+          ...question, 
+          answers: question.answers.map(answer => answer.id === answerId ? {...answer, isHeld: !answer.isHeld} : {...answer, isHeld: false} )
+        } : 
+        question
+      }))
+    }
+  } 
 
   function checkAnswers(){
     if(quizzQuestions.every(question => question.answers.some(answer => answer.isHeld))){
@@ -95,11 +97,10 @@ function App() {
     <ToastContainer />
     </main>
   ) : (
-    <main className='welcome-screen'>
+      <main className='welcome-screen'>
         <h1 className='game-title'>Quizzical</h1>
          <p className='game-description'>Conquer your cluelessness with the ingeneous quiz that helps you learn about the things.</p>
          <button onClick={startGame} >Play</button>
-
       </main>
   )
   
